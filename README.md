@@ -1,4 +1,4 @@
 lsearch
 =======
 
-An learning experiment with python, NLTK and django
+A learning experiment with python, NLTK and django
