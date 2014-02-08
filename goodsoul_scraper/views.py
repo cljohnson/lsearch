@@ -9,12 +9,18 @@ import urllib
 import urllib2
 # Create your views here.
 def home(request):
-    return (HttpResponse("<h1><a href='/home/'>Home</a></h1>This project is about a lot of things - mostly learning things right now - things that will be applied to building things soon!"))
+    #pass the results to a template
+    context = RequestContext(request)
+    html_head = 'This project is about a lot of things - mostly learning things right now - things that will be applied to building things soon!'
+    goodsoul_scrape_link = '/goodsoul_scrape/goodsoul_scrape/'
+    context_dict = {'html_head': html_head, 'goodsoul_scrape_link': goodsoul_scrape_link}
+    return render_to_response('goodsoul_scraper/home.html', context_dict, context)
 	
-def scrape(request):
+def goodsoul_scrape(request):
 	#hard code a page now - worry about how to dig through a site later
 	#need to think about how to anticipate and reject extraneous content from daedal sites
-    page = urllib2.urlopen('http://www.goodsoul.us/wordpress/?page_id=2134')
+    page_id = '2340'
+    page = urllib2.urlopen('http://www.goodsoul.us/wordpress/?page_id=' + page_id)
 	#strip the page of its html
     soup = BeautifulSoup(page)
     body_texts = soup.body(text=True)
@@ -43,8 +49,8 @@ def scrape(request):
 	html = replace_all(txt, reps)
 	#pass the results to a template
     context = RequestContext(request)
-    context_dict = {'html': html}
-    return render_to_response('scraper/scrape_html.html', context_dict, context)
+    context_dict = {'html': html, 'page_id': page_id}
+    return render_to_response('goodsoul_scraper/scrape.html', context_dict, context)
 #####
 # helper functions not otherwise called directly by url
 def replace_all(text, dic):

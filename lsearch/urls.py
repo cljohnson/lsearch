@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from scraper import views
+from goodsoul_scraper import views
 from django.contrib import admin
 admin.autodiscover()
 
@@ -9,6 +9,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-	url(r'^home/', 'scraper.views.home', name='home'),
-    url(r'^scrape/', 'scraper.views.scrape', name='scape'),
+	url(r'^home/', 'goodsoul_scraper.views.home', name='home'),
+    url(r'^goodsoul_scrape/', 'goodsoul_scraper.views.goodsoul_scrape', name='goodsoul_scrape'),
 )
