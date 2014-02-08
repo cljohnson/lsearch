@@ -14,7 +14,7 @@ def home(request):
 def scrape(request):
 	#hard code a page now - worry about how to dig through a site later
 	#need to think about how to anticipate and reject extraneous content from daedal sites
-    page = urllib2.urlopen('http://www.goodsoul.us/wordpress/?page_id=2132')
+    page = urllib2.urlopen('http://www.goodsoul.us/wordpress/?page_id=2134')
 	#strip the page of its html
     soup = BeautifulSoup(page)
     body_texts = soup.body(text=True)
@@ -28,7 +28,7 @@ def scrape(request):
     txt = ""
     start_record = 0
 	#dictionary of special html entities to be converted back to plain text - this can and should be generalized and included
-    reps = {'&#8220;':'"', '&#8221;':'"', '&#8250':'>'}
+    reps = {'&#8220;':'"', '&#8221;':'"', '&#8217;':"'", '&#8250':'>', 'end of .post-entry':''}
 	# perform the extraction
     for part in range(0, len(body_texts)):
         thispart = body_texts[part]
@@ -37,7 +37,7 @@ def scrape(request):
                 txt = txt + thispart + "\n"
             if thispart.find('#header') > 0:
                 start_record = 1
-            if thispart.find('#post') > 0:
+            if thispart.find('end of .post-entry') > 0:
 			    start_record = 0
     #replace the special htm entities
 	html = replace_all(txt, reps)
